@@ -1,0 +1,24 @@
+import { HomePageContentModel } from "@types"
+import { RichText, Title } from "@components/atomic"
+import { Footer, Header } from "@components/navigation";
+
+export default async function HomePage(params: HomePageContentModel) {
+    const props = params.properties;
+
+    return (
+        <div className="relative flex flex-col h-screen">
+            <header className='py-6'>
+                <Header />
+            </header>
+            <main className="container mx-auto max-w-7xl pt-10 px-6 flex-grow">
+                <Title {...props} />
+                <RichText {...props.body} />
+            </main>
+            <footer className="w-full flex items-center justify-center py-3">
+                <Footer />
+            </footer>
+        </div>
+    );
+}
+
+
