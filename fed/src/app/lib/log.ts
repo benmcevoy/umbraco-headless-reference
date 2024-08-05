@@ -12,17 +12,17 @@ const LogLevel = new Map<string, number>(
     ]
 );
 
-function ToLogLevel(level: string): number{
-    if(LogLevel.has(level)) return LogLevel[level];
-    return -1;
-}
+const IsBrowser: boolean = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+const ToLogLevel = (level: string): number => LogLevel.has(level) ? LogLevel[level] : -1;
 
 function IsEnabled(level: number): boolean {
+    // suppress this entirely client side
+    if (IsBrowser) return false;
+
     return ToLogLevel(process.env.LOG_LEVEL) >= level;
 }
 
 // TODO: hook into actual log library, e.g. opentelemetry
-// also, may want to suppress this entirely client side
 export function Debug(message: any) {
     if (IsEnabled(DEBUG)) console.debug(message)
 }
