@@ -3,8 +3,6 @@ import { RichText, Title } from "./atomic";
 import { Tags } from "./navigation";
 
 export function PageHeader(props: IApiContentModel) {
-
-    console.log(props)
     return (
         <section>
             <Title {...props.properties} />

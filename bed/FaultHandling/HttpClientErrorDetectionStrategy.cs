@@ -8,18 +8,25 @@ namespace bed.FaultHandling
     {
         public bool IsTransient(Exception ex)
         {
-            if (ex.InnerException is HttpRequestException)
-            {
-                var inner = ex.InnerException as HttpRequestException;
-
-                // test for 5xx errors
-                if ((inner?.StatusCode.GetValueOrDefault() ?? 0) >= (HttpStatusCode)500) return true;
-
-                // test for socket exception (no one was listening)
-                if (inner?.InnerException is SocketException) return true;
-            }
+            if(IsServerError(ex)) return true;
+            if(IsServerError(ex?.InnerException)) return true;
+            if(IsServerError(ex?.InnerException?.InnerException)) return true;
 
             return false;
         }
+
+        private static bool IsServerError(Exception? exception)
+        {
+            if(exception == null) return false;
+
+            return exception switch
+            {
+                HttpRequestException ex => (ex?.StatusCode.GetValueOrDefault() ?? 0) >= (HttpStatusCode)500,
+                SocketException _ => true,
+                _ => false,
+            };
+        }
     }
+
+
 }
