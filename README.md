@@ -11,9 +11,9 @@ Using Umbraco v13 LTS.
 - Expose umbraco [content API with additional type information](https://github.com/ByteCrumb/Umbraco.Community.DeliveryApiExtensions) to allow generation of OpenAPI client and TypeScript types.
 - Publish events to clients for content updates, e.g. cache invalidation.
 
-Refer to the `asppSettings.json` for an idea of available features.
+Refer to the `appSettings.json` for an idea of available features.
 
-## NextJs FrontEnd
+## NextJs front end
 
 - [NextJs](https://nextjs.org/) front end, [NextUI+tailwind](https://nextui.org/) component library. 
 - Automatically [generated OpenAPI client](https://github.com/hey-api/openapi-ts) and types.
