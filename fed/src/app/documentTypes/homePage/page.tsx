@@ -2,7 +2,7 @@ import { HomePageContentModel } from "@types"
 import { RichText, Title } from "@components/atomic"
 import { Footer, Header } from "@components/navigation";
 
-export default async function HomePage(params: HomePageContentModel) {
+export default function HomePage(params: HomePageContentModel) {
     const props = params.properties;
 
     return (
@@ -10,7 +10,7 @@ export default async function HomePage(params: HomePageContentModel) {
             <header className='py-6'>
                 <Header />
             </header>
-            <main className="container mx-auto max-w-7xl pt-10 px-6 flex-grow">
+            <main className="container mx-auto max-w-7xl pt-10 px-6">
                 <Title {...props} />
                 <RichText {...props.body} />
             </main>

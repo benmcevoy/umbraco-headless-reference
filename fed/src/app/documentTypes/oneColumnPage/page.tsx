@@ -8,7 +8,7 @@ export default async function OneColumnPage(params: OneColumnPageContentModel) {
             <header className='py-6'>
                 <Header />
             </header>
-            <main className="container mx-auto max-w-7xl pt-10 px-6 flex-grow">
+            <main className="container mx-auto max-w-7xl pt-10 px-6">
                 <div>
                     <PageHeader {...params} />
                     <BlockList {...params.properties.components} />

@@ -10,6 +10,7 @@ export default function CallToAction(props: CallToActionPropertiesModel) {
     const link = props.link[0];
     const isExternal = link.linkType === 'External'
     return (
+        <div className="pt-4 pb-4">
         <Card className="max-w-[400px]">
             <CardHeader className="flex gap-3">
                 <h4 className="font-medium text-large">{props.title}</h4>
@@ -25,5 +26,6 @@ export default function CallToAction(props: CallToActionPropertiesModel) {
                 </Link>
             </CardFooter>
         </Card>
+        </div>
     );
 }
