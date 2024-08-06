@@ -43,6 +43,7 @@ export type BasePagePropertiesModel = {
     body?: RichTextModel;
     keywords?: string | null;
     tags?: Array<(string)> | null;
+    hideFromNavigation?: boolean | null;
 };
 
 export type CallToActionElementModel = IApiElementModelBase & {
@@ -55,13 +56,23 @@ export type CallToActionPropertiesModel = {
     text?: RichTextModel;
 };
 
+export type DatasourcesContentModel = IApiContentModelBase & {
+    properties?: DatasourcesPropertiesModel;
+};
+
+export type DatasourcesContentResponseModel = IApiContentResponseModelBase & DatasourcesContentModel;
+
+export type DatasourcesPropertiesModel = {
+    [key: string]: unknown;
+};
+
 export type HomePageContentModel = IApiContentModelBase & {
     properties?: HomePagePropertiesModel;
 };
 
 export type HomePageContentResponseModel = IApiContentResponseModelBase & HomePageContentModel;
 
-export type HomePagePropertiesModel = BasePagePropertiesModel;
+export type HomePagePropertiesModel = BasePagePropertiesModel & SitePropertiesModel;
 
 export type HttpValidationProblemDetails = ProblemDetails & {
     errors?: {
@@ -69,7 +80,7 @@ export type HttpValidationProblemDetails = ProblemDetails & {
     };
 };
 
-export type IApiContentModel = HomePageContentModel | OneColumnPageContentModel | TwoColumnPageContentModel;
+export type IApiContentModel = HomePageContentModel | OneColumnPageContentModel | TwoColumnPageContentModel | NavigationItemContentModel | NavigationFolderContentModel | DatasourcesContentModel | SiteContentModel;
 
 export type IApiContentModelBase = IApiElementModelBase & {
     readonly name?: string | null;
@@ -83,7 +94,7 @@ export type IApiContentModelBase = IApiElementModelBase & {
     };
 };
 
-export type IApiContentResponseModel = HomePageContentResponseModel | OneColumnPageContentResponseModel | TwoColumnPageContentResponseModel;
+export type IApiContentResponseModel = HomePageContentResponseModel | OneColumnPageContentResponseModel | TwoColumnPageContentResponseModel | NavigationItemContentResponseModel | NavigationFolderContentResponseModel | DatasourcesContentResponseModel | SiteContentResponseModel;
 
 export type IApiContentResponseModelBase = IApiContentModelBase & {
     readonly cultures?: {
@@ -160,6 +171,26 @@ export type ImageFocalPointModel = {
 
 export type LinkTypeModel = 'Content' | 'Media' | 'External';
 
+export type NavigationFolderContentModel = IApiContentModelBase & {
+    properties?: NavigationFolderPropertiesModel;
+};
+
+export type NavigationFolderContentResponseModel = IApiContentResponseModelBase & NavigationFolderContentModel;
+
+export type NavigationFolderPropertiesModel = {
+    [key: string]: unknown;
+};
+
+export type NavigationItemContentModel = IApiContentModelBase & {
+    properties?: NavigationItemPropertiesModel;
+};
+
+export type NavigationItemContentResponseModel = IApiContentResponseModelBase & NavigationItemContentModel;
+
+export type NavigationItemPropertiesModel = {
+    link?: Array<ApiLinkModel> | null;
+};
+
 export type OneColumnPageContentModel = IApiContentModelBase & {
     properties?: OneColumnPagePropertiesModel;
 };
@@ -200,6 +231,16 @@ export type RichTextModel = {
 
 export type RichTextPropertiesModel = {
     text?: RichTextModel;
+};
+
+export type SiteContentModel = IApiContentModelBase & {
+    properties?: SitePropertiesModel;
+};
+
+export type SiteContentResponseModel = IApiContentResponseModelBase & SiteContentModel;
+
+export type SitePropertiesModel = {
+    siteName?: string | null;
 };
 
 export type TwoColumnPageContentModel = IApiContentModelBase & {

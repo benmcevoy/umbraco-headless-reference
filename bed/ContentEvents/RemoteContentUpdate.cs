@@ -8,7 +8,7 @@ using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.PublishedCache;
 
-namespace bed.Handlers
+namespace bed.ContentEvents
 {
     /// <summary>
     /// Notify the remote sever (typically the front end server, e.g. NextJs) of a content update.

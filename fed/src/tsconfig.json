@@ -25,7 +25,7 @@
       "@/*": ["./app/*"],
       "@components/*": ["./app/components/*"],
       "@components": ["./app/components"],
-      "@types": ["./app/types"]
+      "@types": ["./app/client/umbraco"]
     }
   },
   "include": [
