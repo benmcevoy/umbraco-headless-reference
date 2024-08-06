@@ -1,6 +1,6 @@
 # Umbraco Headless Reference
 
-Ubraco reference implentation for my own refernce and learing.  I have chosen to implement a headless system, as it forces me to practice with NextJs etc.  I'm not really a front end dev :)
+Ubraco reference implentation for my own reference and learning.  I have chosen to implement a headless system, as it forces me to practice with NextJs etc.  I'm not really a front end dev :)
 
 ## Umbraco backend
 
