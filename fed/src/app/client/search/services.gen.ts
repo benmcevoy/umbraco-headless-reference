@@ -12,7 +12,7 @@ import type { GetV1SearchData, GetV1SearchResponse } from './types.gen';
  * @param data.pageSize
  * @param data.sort
  * @param data.tags
- * @returns SearchResult Success
+ * @returns SearchResults Success
  * @throws ApiError
  */
 export const getV1Search = (data: GetV1SearchData = {}): CancelablePromise<GetV1SearchResponse> => { return __request(OpenAPI, {

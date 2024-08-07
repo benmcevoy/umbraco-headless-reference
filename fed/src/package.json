@@ -8,7 +8,7 @@
 		"start": "next start",
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
 		"generate": "openapi-ts -i http://localhost:46555/umbraco/swagger/delivery/swagger.json -o ./app/client/umbraco",
-		"generate-search-api": "openapi-ts -i http://localhost:46555/umbraco/swagger/bed.Search/swagger.json -o ./app/client/search"
+		"generate-search-api": "openapi-ts -i http://localhost:46555/umbraco/swagger/bed.search/swagger.json -o ./app/client/search"
 	},
 	"dependencies": {
 		"@nextui-org/accordion": "^2.0.38",
