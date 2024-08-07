@@ -2,7 +2,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace bed.Search.v1
+namespace bed.Search
 {
     public class SearchApiSwaggerGenOptions : IConfigureOptions<SwaggerGenOptions>
     {
@@ -15,6 +15,8 @@ namespace bed.Search.v1
                     Title = Constants.ApiTitle,
                     Version = "Latest",
                 });
+
+            // TODO: refer e.g. SwaggerMediaDocumentationFilter to enrich the swagger documentation
         }
     }
 }

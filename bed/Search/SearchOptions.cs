@@ -1,4 +1,4 @@
-namespace bed.Search.v1
+namespace bed.Search
 {
     public class SearchOptions
     {

@@ -1,6 +1,6 @@
 using Umbraco.Cms.Core.Composing;
 
-namespace bed.Search.v1
+namespace bed.Search
 {
     public class Composer : IComposer
     {
