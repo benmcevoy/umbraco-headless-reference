@@ -1,3 +1,4 @@
+using bed.Search.ComputedFields;
 using Umbraco.Cms.Core.Composing;
 
 namespace bed.Search
@@ -6,7 +7,10 @@ namespace bed.Search
     {
         public void Compose(IUmbracoBuilder builder)
         {
-            builder.Services.ConfigureOptions<SearchApiSwaggerGenOptions>();
+            builder.Services
+                .ConfigureOptions<SearchApiSwaggerGenOptions>()
+                .AddTransient<IComputedField, RelativeUrl>()
+                .AddTransient<IComputedField, ContentTypeDisplay>();
         }
     }
 }

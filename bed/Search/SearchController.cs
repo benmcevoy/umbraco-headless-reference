@@ -27,23 +27,10 @@ namespace bed.Search
             // TODO: validate
             // TODO: perform search
 
-            // external index is default published content
-            // a good default
-
-            // consider:
-            // https://github.com/umbraco/Umbraco-CMS/blob/contrib/src/Umbraco.Infrastructure/Examine/ContentIndexPopulator.cs
-            // a content field with all searchable fields aggregated
-            // pdf/media
-            // BM25 relevancy
+            // start item
             // tags
-            // start item actually would be good - for collections
-            // avoid having to fetch the item after the search as the example does (umbraco helper)
-            // be nice to have a custom "Searcher" or some backoffice UI to view/test query?
-            // add the api-key auth thing too
-
-            // consider: lucene has vector and embedding search (alledgely)
-            // probably too difficult to implement here
-            // and i don't have an LLM handy (llama maybe?)
+            // hide from search
+            // current site
 
             var query = options?.Query;
 
@@ -52,16 +39,7 @@ namespace bed.Search
                 var results = index
                     .Searcher
                     .CreateQuery("content")
-                    // search everything
-                    // TODO: quite broad - finds any content
-                    // e.g. navigation item
-                    // this may be a problem with my IA/content model
-                    // or an opportunity to support "cards" or quick results (no url, just the content directly)
-                    // at any rate be explict as to which content types are included
                     .ManagedQuery(query)
-                    // and tags
-                    // and start item if we have that
-                    // and ignore where checked "hide from search"
                     .Execute(QueryOptions.SkipTake((options!.PageNumber - 1) * options.PageSize, options.PageSize));
 
                 return new SearchResults
@@ -86,18 +64,15 @@ namespace bed.Search
             {
                 yield return new SearchResult
                 {
-                    Title = searchResult["title"],
-                    ContentType = searchResult["__NodeTypeAlias"],
+                    Title = searchResult[Constants.Fields.Title],
+                    ContentType = searchResult[Constants.Fields.ContentType],
                     // TODO: body is too big and has html/rich text, normally I want summary to be a "tweet's worth"
                     // use a metadata Summary field and fallback
                     // for fun consider autosummarization, either my own or some LLM
-                    Summary = searchResult["body"],
-                    // TODO: content model is not very good for headless - should be "Article", "FAQ" etc something domain specific
-                    // one column, two column etc. makes no sense if you are "content first"
-                    ContentTypeDisplay = searchResult["__NodeTypeAlias"],
-                    Tags = searchResult.GetValues("tags"),
-                    // TODO: url is not in the index, just the id
-                    Url = "#"
+                    Summary = searchResult[Constants.Fields.Summary],
+                    ContentTypeDisplay = searchResult[Constants.Fields.ContentTypeDisplay],
+                    Tags = searchResult.GetValues(Constants.Fields.Tags),
+                    Url = searchResult[Constants.Fields.RelativeUrl],
                 };
             }
         }
