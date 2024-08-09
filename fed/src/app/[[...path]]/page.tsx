@@ -1,6 +1,6 @@
 import { OpenAPI, getContentItemByPath20, IApiContentModel } from "@types"
 import { notFound } from 'next/navigation'
-import documentTypes from "@/documentTypes";
+import { default as documentTypes } from "@/documentTypes";
 import { GetUmbracoContext } from "@/lib/umbracoContext";
 import { DebugJson } from "@components/debug-json-api";
 
