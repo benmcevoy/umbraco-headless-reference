@@ -4,5 +4,6 @@ export function Tags(props) {
 // TODO: tag facet<br />
 // list of<br />
 // #Tag (count)<br />
+// TODO: needs another service to get available tags or something
     </>)
 }

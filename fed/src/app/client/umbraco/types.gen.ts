@@ -42,8 +42,10 @@ export type BasePagePropertiesModel = {
     title?: string | null;
     body?: RichTextModel;
     keywords?: string | null;
+    summary?: string | null;
     tags?: Array<(string)> | null;
     hideFromNavigation?: boolean | null;
+    hideFromSearch?: boolean | null;
 };
 
 export type CallToActionElementModel = IApiElementModelBase & {
@@ -80,7 +82,7 @@ export type HttpValidationProblemDetails = ProblemDetails & {
     };
 };
 
-export type IApiContentModel = HomePageContentModel | OneColumnPageContentModel | TwoColumnPageContentModel | NavigationItemContentModel | NavigationFolderContentModel | DatasourcesContentModel | SiteContentModel;
+export type IApiContentModel = HomePageContentModel | OneColumnPageContentModel | TwoColumnPageContentModel | NavigationItemContentModel | NavigationFolderContentModel | DatasourcesContentModel | SiteContentModel | SearchPageContentModel;
 
 export type IApiContentModelBase = IApiElementModelBase & {
     readonly name?: string | null;
@@ -94,7 +96,7 @@ export type IApiContentModelBase = IApiElementModelBase & {
     };
 };
 
-export type IApiContentResponseModel = HomePageContentResponseModel | OneColumnPageContentResponseModel | TwoColumnPageContentResponseModel | NavigationItemContentResponseModel | NavigationFolderContentResponseModel | DatasourcesContentResponseModel | SiteContentResponseModel;
+export type IApiContentResponseModel = HomePageContentResponseModel | OneColumnPageContentResponseModel | TwoColumnPageContentResponseModel | NavigationItemContentResponseModel | NavigationFolderContentResponseModel | DatasourcesContentResponseModel | SiteContentResponseModel | SearchPageContentResponseModel;
 
 export type IApiContentResponseModelBase = IApiContentModelBase & {
     readonly cultures?: {
@@ -232,6 +234,14 @@ export type RichTextModel = {
 export type RichTextPropertiesModel = {
     text?: RichTextModel;
 };
+
+export type SearchPageContentModel = IApiContentModelBase & {
+    properties?: SearchPagePropertiesModel;
+};
+
+export type SearchPageContentResponseModel = IApiContentResponseModelBase & SearchPageContentModel;
+
+export type SearchPagePropertiesModel = BasePagePropertiesModel;
 
 export type SiteContentModel = IApiContentModelBase & {
     properties?: SitePropertiesModel;

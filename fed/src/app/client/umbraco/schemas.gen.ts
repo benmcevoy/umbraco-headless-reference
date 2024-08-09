@@ -160,6 +160,10 @@ export const $BasePagePropertiesModel = {
             type: 'string',
             nullable: true
         },
+        summary: {
+            type: 'string',
+            nullable: true
+        },
         tags: {
             type: 'array',
             items: {
@@ -168,6 +172,10 @@ export const $BasePagePropertiesModel = {
             nullable: true
         },
         hideFromNavigation: {
+            type: 'boolean',
+            nullable: true
+        },
+        hideFromSearch: {
             type: 'boolean',
             nullable: true
         }
@@ -325,6 +333,9 @@ export const $IApiContentModel = {
         },
         {
             '$ref': '#/components/schemas/SiteContentModel'
+        },
+        {
+            '$ref': '#/components/schemas/SearchPageContentModel'
         }
     ],
     additionalProperties: false
@@ -381,7 +392,8 @@ export const $IApiContentModelBase = {
             navigationItem: '#/components/schemas/NavigationItemContentModel',
             navigationFolder: '#/components/schemas/NavigationFolderContentModel',
             datasources: '#/components/schemas/DatasourcesContentModel',
-            site: '#/components/schemas/SiteContentModel'
+            site: '#/components/schemas/SiteContentModel',
+            searchPage: '#/components/schemas/SearchPageContentModel'
         }
     }
 } as const;
@@ -409,6 +421,9 @@ export const $IApiContentResponseModel = {
         },
         {
             '$ref': '#/components/schemas/SiteContentResponseModel'
+        },
+        {
+            '$ref': '#/components/schemas/SearchPageContentResponseModel'
         }
     ],
     additionalProperties: false
@@ -472,7 +487,8 @@ export const $IApiContentResponseModelBase = {
             navigationItem: '#/components/schemas/NavigationItemContentResponseModel',
             navigationFolder: '#/components/schemas/NavigationFolderContentResponseModel',
             datasources: '#/components/schemas/DatasourcesContentResponseModel',
-            site: '#/components/schemas/SiteContentResponseModel'
+            site: '#/components/schemas/SiteContentResponseModel',
+            searchPage: '#/components/schemas/SearchPageContentResponseModel'
         }
     }
 } as const;
@@ -918,6 +934,43 @@ export const $RichTextPropertiesModel = {
             '$ref': '#/components/schemas/RichTextModel'
         }
     }
+} as const;
+
+export const $SearchPageContentModel = {
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/IApiContentModelBase'
+        }
+    ],
+    properties: {
+        properties: {
+            '$ref': '#/components/schemas/SearchPagePropertiesModel'
+        }
+    },
+    additionalProperties: false
+} as const;
+
+export const $SearchPageContentResponseModel = {
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/IApiContentResponseModelBase'
+        },
+        {
+            '$ref': '#/components/schemas/SearchPageContentModel'
+        }
+    ],
+    additionalProperties: false
+} as const;
+
+export const $SearchPagePropertiesModel = {
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/BasePagePropertiesModel'
+        }
+    ]
 } as const;
 
 export const $SiteContentModel = {

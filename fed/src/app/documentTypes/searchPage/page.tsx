@@ -1,9 +1,15 @@
-//import { TwoColumnPageContentModel } from "@types"
+import { SearchPageContentModel } from "@types"
+import { GetUmbracoContext } from "@/lib/umbracoContext";
 import { PageHeader } from "@components";
 import { Footer, Header } from "@components/navigation";
 import * as Search from "@components/search";
 
-export default function SearchPage(params: any) {
+export default function SearchPage(params: SearchPageContentModel) {
+    // TODO: call search service with GetUmbracoContext().searchParams
+    // i think that will be OK
+    
+    const props = {};
+
     return (
         <div className="relative flex flex-col h-screen">
             <header className='py-6'>
@@ -14,12 +20,12 @@ export default function SearchPage(params: any) {
             </section>
             <section className="grid grid-cols-12 container mx-auto max-w-7xl pt-10 px-6">
                 <aside className="col-span-full md:col-span-4">
-                    <Search.Tags {...params.properties.aside} />
+                    <Search.Tags {...props} />
                 </aside>
                 <main className="col-span-full md:col-span-8">
-                    <Search.Options {...params} />
-                    <Search.Results {...params} />
-                    <Search.Pagination {...params} />
+                    <Search.Options {...props} />
+                    <Search.Results {...props} />
+                    <Search.Pagination {...props} />
                 </main>
             </section>
             <footer className="w-full flex items-center justify-center py-3 flex-grow">

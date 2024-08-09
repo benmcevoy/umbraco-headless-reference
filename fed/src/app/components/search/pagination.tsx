@@ -1,6 +1,7 @@
+import { SearchOptions } from "@/client/search";
 
 
-export function Pagination(props){
+export function Pagination(props: SearchOptions){
     
     return (<>
     
