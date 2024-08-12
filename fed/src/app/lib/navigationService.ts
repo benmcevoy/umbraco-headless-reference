@@ -2,7 +2,7 @@ import { IApiContentResponseModel, ApiLinkModel, OpenAPI, getContent20 } from "@
 
 export interface NavigationItem {
     href: string;
-    label: string;
+    label: any;
     isExternal?: boolean 
 }
 
@@ -17,9 +17,8 @@ function ToLinkFromLink(link: ApiLinkModel): NavigationItem  {
     // TODO: media and querystring etc
     switch (link.linkType) {
         case "Content":
-            return { href: link.route.path, label: link.title};
         case "Media":
-            break;
+            return { href: link.route.path, label: link.title};
         case "External":
             return { href: link.url, label: link.title, isExternal: true };
     }
@@ -30,7 +29,8 @@ export async function GetPrimaryMenu(pathOrId: string = "/") : Promise<Navigatio
 
     let result = await getContent20({
         fetch: `children:${pathOrId}`,
-        fields: "properties[title]",
+        fields: 'properties[title]',
+        filter: ['hideFromNavigation:0'],
         apiKey: process.env.UMBRACO_API_KEY
     });
 
@@ -59,6 +59,7 @@ export async function GetBreadCrumb(path) {
     let result = await getContent20({
         fetch: `ancestors:${path}`,
         fields: "properties[title]",
+        filter: ['hideFromNavigation:0'],
         sort: ["level:asc"],
         apiKey: process.env.UMBRACO_API_KEY
     });

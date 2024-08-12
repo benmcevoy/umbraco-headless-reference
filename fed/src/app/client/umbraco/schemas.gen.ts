@@ -217,6 +217,34 @@ export const $CallToActionPropertiesModel = {
     }
 } as const;
 
+export const $ContentElementModel = {
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/IApiElementModelBase'
+        }
+    ],
+    properties: {
+        properties: {
+            '$ref': '#/components/schemas/ContentPropertiesModel'
+        }
+    },
+    additionalProperties: false
+} as const;
+
+export const $ContentPropertiesModel = {
+    type: 'object',
+    properties: {
+        title: {
+            type: 'string',
+            nullable: true
+        },
+        main: {
+            '$ref': '#/components/schemas/RichTextModel'
+        }
+    }
+} as const;
+
 export const $DatasourcesContentModel = {
     type: 'object',
     allOf: [
@@ -281,7 +309,13 @@ export const $HomePagePropertiesModel = {
     type: 'object',
     allOf: [
         {
-            '$ref': '#/components/schemas/BasePagePropertiesModel'
+            '$ref': '#/components/schemas/ContentPropertiesModel'
+        },
+        {
+            '$ref': '#/components/schemas/NavigationPropertiesModel'
+        },
+        {
+            '$ref': '#/components/schemas/SEOPropertiesModel'
         },
         {
             '$ref': '#/components/schemas/SitePropertiesModel'
@@ -534,6 +568,15 @@ export const $IApiElementModel = {
         },
         {
             '$ref': '#/components/schemas/BasePageElementModel'
+        },
+        {
+            '$ref': '#/components/schemas/ContentElementModel'
+        },
+        {
+            '$ref': '#/components/schemas/NavigationElementModel'
+        },
+        {
+            '$ref': '#/components/schemas/SEOElementModel'
         }
     ],
     additionalProperties: false
@@ -563,7 +606,10 @@ export const $IApiElementModelBase = {
         mapping: {
             callToAction: '#/components/schemas/CallToActionElementModel',
             richText: '#/components/schemas/RichTextElementModel',
-            basePage: '#/components/schemas/BasePageElementModel'
+            basePage: '#/components/schemas/BasePageElementModel',
+            content: '#/components/schemas/ContentElementModel',
+            navigation: '#/components/schemas/NavigationElementModel',
+            sEO: '#/components/schemas/SEOElementModel'
         }
     }
 } as const;
@@ -710,6 +756,21 @@ export const $LinkTypeModel = {
     type: 'string'
 } as const;
 
+export const $NavigationElementModel = {
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/IApiElementModelBase'
+        }
+    ],
+    properties: {
+        properties: {
+            '$ref': '#/components/schemas/NavigationPropertiesModel'
+        }
+    },
+    additionalProperties: false
+} as const;
+
 export const $NavigationFolderContentModel = {
     type: 'object',
     allOf: [
@@ -783,6 +844,20 @@ export const $NavigationItemPropertiesModel = {
     }
 } as const;
 
+export const $NavigationPropertiesModel = {
+    type: 'object',
+    properties: {
+        hideFromNavigation: {
+            type: 'boolean',
+            nullable: true
+        },
+        hideFromSearch: {
+            type: 'boolean',
+            nullable: true
+        }
+    }
+} as const;
+
 export const $OneColumnPageContentModel = {
     type: 'object',
     allOf: [
@@ -815,7 +890,13 @@ export const $OneColumnPagePropertiesModel = {
     type: 'object',
     allOf: [
         {
-            '$ref': '#/components/schemas/BasePagePropertiesModel'
+            '$ref': '#/components/schemas/ContentPropertiesModel'
+        },
+        {
+            '$ref': '#/components/schemas/NavigationPropertiesModel'
+        },
+        {
+            '$ref': '#/components/schemas/SEOPropertiesModel'
         }
     ],
     properties: {
@@ -936,6 +1017,42 @@ export const $RichTextPropertiesModel = {
     }
 } as const;
 
+export const $SEOElementModel = {
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/IApiElementModelBase'
+        }
+    ],
+    properties: {
+        properties: {
+            '$ref': '#/components/schemas/SEOPropertiesModel'
+        }
+    },
+    additionalProperties: false
+} as const;
+
+export const $SEOPropertiesModel = {
+    type: 'object',
+    properties: {
+        keywords: {
+            type: 'string',
+            nullable: true
+        },
+        summary: {
+            type: 'string',
+            nullable: true
+        },
+        tags: {
+            type: 'array',
+            items: {
+                type: 'string'
+            },
+            nullable: true
+        }
+    }
+} as const;
+
 export const $SearchPageContentModel = {
     type: 'object',
     allOf: [
@@ -968,7 +1085,10 @@ export const $SearchPagePropertiesModel = {
     type: 'object',
     allOf: [
         {
-            '$ref': '#/components/schemas/BasePagePropertiesModel'
+            '$ref': '#/components/schemas/ContentPropertiesModel'
+        },
+        {
+            '$ref': '#/components/schemas/NavigationPropertiesModel'
         }
     ]
 } as const;
@@ -1043,7 +1163,13 @@ export const $TwoColumnPagePropertiesModel = {
     type: 'object',
     allOf: [
         {
-            '$ref': '#/components/schemas/BasePagePropertiesModel'
+            '$ref': '#/components/schemas/ContentPropertiesModel'
+        },
+        {
+            '$ref': '#/components/schemas/NavigationPropertiesModel'
+        },
+        {
+            '$ref': '#/components/schemas/SEOPropertiesModel'
         }
     ],
     properties: {

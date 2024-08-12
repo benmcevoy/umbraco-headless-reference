@@ -2,8 +2,8 @@ import { HomePageContentModel } from "@types"
 import { RichText, Title } from "@components/atomic"
 import { Footer, Header } from "@components/navigation";
 
-export default function HomePage(params: HomePageContentModel) {
-    const props = params.properties;
+export default function HomePage(pageModel: HomePageContentModel) {
+    const props = pageModel.properties;
 
     return (
         <div className="relative flex flex-col h-screen">
@@ -12,7 +12,7 @@ export default function HomePage(params: HomePageContentModel) {
             </header>
             <main className="container mx-auto max-w-7xl pt-10 px-6">
                 <Title {...props} />
-                <RichText {...props.body} />
+                <RichText {...props.main} />
             </main>
             <footer className="w-full flex items-center justify-center py-3">
                 <Footer />

@@ -2,7 +2,7 @@ import { OneColumnPageContentModel } from "@types"
 import { Footer, Header } from "@components/navigation";
 import { PageHeader, BlockList } from "@components";
 
-export default async function OneColumnPage(params: OneColumnPageContentModel) {
+export default async function OneColumnPage(pageModel: OneColumnPageContentModel) {
     return (
         <div className="relative flex flex-col h-screen">
             <header className='py-6'>
@@ -10,8 +10,8 @@ export default async function OneColumnPage(params: OneColumnPageContentModel) {
             </header>
             <main className="container mx-auto max-w-7xl pt-10 px-6">
                 <div>
-                    <PageHeader {...params} />
-                    <BlockList {...params.properties.components} />
+                    <PageHeader {...pageModel} />
+                    <BlockList {...pageModel.properties.components} />
                 </div>
             </main>
             <footer className="w-full flex items-center justify-center py-3">

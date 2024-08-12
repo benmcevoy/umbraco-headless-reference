@@ -58,6 +58,15 @@ export type CallToActionPropertiesModel = {
     text?: RichTextModel;
 };
 
+export type ContentElementModel = IApiElementModelBase & {
+    properties?: ContentPropertiesModel;
+};
+
+export type ContentPropertiesModel = {
+    title?: string | null;
+    main?: RichTextModel;
+};
+
 export type DatasourcesContentModel = IApiContentModelBase & {
     properties?: DatasourcesPropertiesModel;
 };
@@ -74,7 +83,7 @@ export type HomePageContentModel = IApiContentModelBase & {
 
 export type HomePageContentResponseModel = IApiContentResponseModelBase & HomePageContentModel;
 
-export type HomePagePropertiesModel = BasePagePropertiesModel & SitePropertiesModel;
+export type HomePagePropertiesModel = ContentPropertiesModel & NavigationPropertiesModel & SEOPropertiesModel & SitePropertiesModel;
 
 export type HttpValidationProblemDetails = ProblemDetails & {
     errors?: {
@@ -123,7 +132,7 @@ export type IApiContentStartItemModel = {
     readonly path?: string;
 };
 
-export type IApiElementModel = CallToActionElementModel | RichTextElementModel | BasePageElementModel;
+export type IApiElementModel = CallToActionElementModel | RichTextElementModel | BasePageElementModel | ContentElementModel | NavigationElementModel | SEOElementModel;
 
 export type IApiElementModelBase = {
     readonly id?: string;
@@ -173,6 +182,10 @@ export type ImageFocalPointModel = {
 
 export type LinkTypeModel = 'Content' | 'Media' | 'External';
 
+export type NavigationElementModel = IApiElementModelBase & {
+    properties?: NavigationPropertiesModel;
+};
+
 export type NavigationFolderContentModel = IApiContentModelBase & {
     properties?: NavigationFolderPropertiesModel;
 };
@@ -193,13 +206,18 @@ export type NavigationItemPropertiesModel = {
     link?: Array<ApiLinkModel> | null;
 };
 
+export type NavigationPropertiesModel = {
+    hideFromNavigation?: boolean | null;
+    hideFromSearch?: boolean | null;
+};
+
 export type OneColumnPageContentModel = IApiContentModelBase & {
     properties?: OneColumnPagePropertiesModel;
 };
 
 export type OneColumnPageContentResponseModel = IApiContentResponseModelBase & OneColumnPageContentModel;
 
-export type OneColumnPagePropertiesModel = BasePagePropertiesModel & {
+export type OneColumnPagePropertiesModel = ContentPropertiesModel & NavigationPropertiesModel & SEOPropertiesModel & {
     components?: ApiBlockListModel;
 };
 
@@ -235,13 +253,23 @@ export type RichTextPropertiesModel = {
     text?: RichTextModel;
 };
 
+export type SEOElementModel = IApiElementModelBase & {
+    properties?: SEOPropertiesModel;
+};
+
+export type SEOPropertiesModel = {
+    keywords?: string | null;
+    summary?: string | null;
+    tags?: Array<(string)> | null;
+};
+
 export type SearchPageContentModel = IApiContentModelBase & {
     properties?: SearchPagePropertiesModel;
 };
 
 export type SearchPageContentResponseModel = IApiContentResponseModelBase & SearchPageContentModel;
 
-export type SearchPagePropertiesModel = BasePagePropertiesModel;
+export type SearchPagePropertiesModel = ContentPropertiesModel & NavigationPropertiesModel;
 
 export type SiteContentModel = IApiContentModelBase & {
     properties?: SitePropertiesModel;
@@ -259,7 +287,7 @@ export type TwoColumnPageContentModel = IApiContentModelBase & {
 
 export type TwoColumnPageContentResponseModel = IApiContentResponseModelBase & TwoColumnPageContentModel;
 
-export type TwoColumnPagePropertiesModel = BasePagePropertiesModel & {
+export type TwoColumnPagePropertiesModel = ContentPropertiesModel & NavigationPropertiesModel & SEOPropertiesModel & {
     aside?: ApiBlockListModel;
 };
 

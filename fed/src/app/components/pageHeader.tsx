@@ -9,7 +9,7 @@ export function PageHeader(props: IApiContentModel) {
             <div className="mx-auto max-w-7xl px-6" >
                 <Tags tags={props.properties.tags} />
             </div>
-            <RichText {...props.properties.body ?? ''} />
+            <RichText {...props.properties.main ?? ''} />
         </section>
     );
 }

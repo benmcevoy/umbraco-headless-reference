@@ -1,13 +1,8 @@
 import { SearchResults } from "@/client/search";
-import { default as result } from "./searchResult"
+import { default as searchResultItem } from "./searchResult"
 
 export function Results(results: SearchResults) {
-
-    // foreach map or something
-    return (
-        <>
-            {result(results.results[0])}
-        </>
-    );
+    return (<div className="">
+        {results.results?.map((item, index) => searchResultItem(item, index ))}
+    </div>);
 }
-

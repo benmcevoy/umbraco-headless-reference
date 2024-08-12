@@ -5,7 +5,7 @@ const components = new Map();
 
 components.set('_default', DefaultSearchResult);
 
-export default (params: SearchResult) =>
-    components.has(params.contentType)
-        ? components.get(params.contentType)(params)
-        : components.get('_default')(params);
+export default (item: SearchResult, index: number) =>
+    components.has(item.contentType)
+        ? components.get(item.contentType)({ item, index })
+        : components.get('_default')({ item, index });
