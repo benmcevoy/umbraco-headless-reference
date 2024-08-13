@@ -5,7 +5,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 var umbracoBuilder = builder.CreateUmbracoBuilder();
 
 // config is also registered with DI but it is awkward to resolve here
-var config = umbracoBuilder.Config.GetSection("bed").Get<bed.Configuration>()!;
+var config = umbracoBuilder.Config.GetSection("bed").Get<bed.Shared.Configuration>()!;
 
 if (!config.IsWebsiteDisabled) umbracoBuilder.AddWebsite();
 

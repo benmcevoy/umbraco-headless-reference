@@ -1,5 +1,6 @@
 using bed.FaultHandling;
 using bed.Models;
+using bed.Shared;
 using Umbraco.Cms.Core.DeliveryApi;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Models;
@@ -22,7 +23,7 @@ namespace bed.ContentEvents
     /// </Remarks>
     public class RemoteContentUpdate(IPublishedSnapshotAccessor publishedSnapshotAccessor,
                 IApiContentBuilder apiContentBuilder,
-                bed.Configuration config,
+                Configuration config,
                 RetryPolicyFactory retryPolicyFactory,
                 IHttpClientFactory httpClientFactory) : INotificationAsyncHandler<ContentPublishedNotification>,
                     INotificationAsyncHandler<ContentDeletedNotification>,
@@ -49,10 +50,12 @@ namespace bed.ContentEvents
                 var publishedContent = GetPublishedContent(c.Id)
                         ?? throw new InvalidOperationException($"RemoteContentUpdate - cannot find published content for id {c.Id}");
 
-                var entity = ToRequestPayload(publishedContent)!;
-
                 var currentSite = GetSite(publishedContent)
                         ?? throw new InvalidOperationException($"RemoteContentUpdate -  cannot find site for id {c.Id}. Check the configured siteName in appSettings matches the published siteName."); ;
+
+                if (currentSite.RemoteDisabled) continue;
+
+                var entity = ToRequestPayload(publishedContent)!;
 
                 Task.Factory.StartNew(() =>
                 {

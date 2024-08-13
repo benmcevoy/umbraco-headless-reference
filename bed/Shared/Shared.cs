@@ -8,7 +8,7 @@ namespace bed.Shared
     {
         public void Compose(IUmbracoBuilder builder)
         {
-            var config = builder.Config.GetSection("bed").Get<bed.Configuration>()!;
+            var config = builder.Config.GetSection("bed").Get<Configuration>()!;
 
             builder.Services.AddHttpClient();
 
