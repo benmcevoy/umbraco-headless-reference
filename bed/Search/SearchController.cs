@@ -1,8 +1,6 @@
 using Asp.Versioning;
 using Examine;
-using Examine.Lucene;
 using Examine.Search;
-using Lucene.Net.Index;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Api.Common.Attributes;
 
@@ -26,27 +24,20 @@ namespace bed.Search
         [MapToApiVersion("1.0")]
         public SearchResults Search([FromQuery] SearchOptions? options)
         {
-            // TODO: validate
-            // TODO: perform search
-
-            // start item
-            // tags
-            // hide from search
-            // current site
-
             var query = options?.Query;
+            var tags = options?.Tags ?? [];
 
             if (!string.IsNullOrEmpty(query) && _examineManager.TryGetIndex(Constants.IndexName, out IIndex? index))
             {
-
                 var results = index
                     .Searcher
                     .CreateQuery("content")
+                    // TODO: scope search to a site? 
+                    //.ParentId(rootId).And()
+                    .NativeQuery($"{Constants.Fields.HideFromSearch}:0").And()
                     .Field(Constants.Fields.AggregateContent, query)
-                    .WithFacets(f => f.FacetString(Constants.Fields.Tags, facetConfiguration: null, options.Tags))
+                    .WithFacets(f => f.FacetString(Constants.Fields.Tags, facetConfiguration: null, tags))
                     .Execute(QueryOptions.SkipTake((options!.PageNumber - 1) * options.PageSize, options.PageSize));
-
-                //results.GetFacets
 
                 return new SearchResults
                 {
@@ -70,15 +61,15 @@ namespace bed.Search
             {
                 yield return new SearchResult
                 {
-                    Title = searchResult[Constants.Fields.Title],
-                    ContentType = searchResult[Constants.Fields.ContentType],
+                    Title = searchResult[Constants.Fields.Title]!,
+                    ContentType = searchResult[Constants.Fields.ContentType]!,
                     // TODO: body is too big and has html/rich text, normally I want summary to be a "tweet's worth"
                     // use a metadata Summary field and fallback
                     // for fun consider autosummarization, either my own or some LLM
-                    Summary = searchResult[Constants.Fields.Summary],
-                    ContentTypeDisplay = searchResult[Constants.Fields.ContentTypeDisplay],
+                    Summary = searchResult[Constants.Fields.Summary]!,
+                    ContentTypeDisplay = searchResult[Constants.Fields.ContentTypeDisplay]!,
                     Tags = searchResult.GetValues(Constants.Fields.Tags),
-                    Url = searchResult[Constants.Fields.RelativeUrl],
+                    Url = searchResult[Constants.Fields.RelativeUrl]!,
                 };
             }
         }

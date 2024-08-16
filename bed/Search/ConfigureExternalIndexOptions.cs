@@ -1,3 +1,4 @@
+using Examine;
 using Examine.Lucene;
 using Microsoft.Extensions.Options;
 
@@ -10,6 +11,8 @@ namespace bed.Search
             if (name == Constants.IndexName)
             {
                 options.FacetsConfig.SetMultiValued(Constants.Fields.Tags, true);
+
+                options.FieldDefinitions.AddOrUpdate(new FieldDefinition( Constants.Fields.Tags, FieldDefinitionTypes.FacetFullText));
             }
         }
 

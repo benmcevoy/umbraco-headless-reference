@@ -17,6 +17,8 @@ namespace bed.Search
             public const string Summary = "summary";
             public const string ContentType = "__NodeTypeAlias";
             public const string ContentTypeDisplay = "contentTypeDisplay";
+            public const string HideFromSearch = "hideFromSearch";
+            public const string HideFromNavigation = "hideFromNavigation";
         }
     }
 }
