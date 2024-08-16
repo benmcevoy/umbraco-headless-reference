@@ -11,7 +11,7 @@ namespace bed.Search.ComputedFields
         private readonly IContentService _contentService;
         private readonly Configuration _configuration;
         private readonly IJsonSerializer _jsonSerializer;
-        ILogger<AggregateContent> _logger;
+        private readonly ILogger<AggregateContent> _logger;
 
         public AggregateContent(IContentService contentService, Configuration configuration, IJsonSerializer jsonSerializer, ILogger<AggregateContent> logger)
         {
