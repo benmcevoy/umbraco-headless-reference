@@ -4,6 +4,7 @@ namespace bed.Search
     {
         public long Total { get; set; } = 0;
         public IEnumerable<SearchResult> Results { get; set; } = [];
-        public SearchOptions Options { get; set; } = new SearchOptions();
+        public SearchQuery QueryOptions { get; set; } = new SearchQuery();
+        public IEnumerable<SearchTag> Tags { get; set; } = [];
     }
 }

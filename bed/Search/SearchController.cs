@@ -1,8 +1,10 @@
 using Asp.Versioning;
 using Examine;
+using Examine.Lucene;
 using Examine.Search;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Api.Common.Attributes;
+using Umbraco.Cms.Core.PublishedCache;
 
 namespace bed.Search
 {
@@ -14,15 +16,17 @@ namespace bed.Search
     public class SearchController
     {
         private readonly IExamineManager _examineManager;
+        private readonly ITagQuery _tagQuery;
 
-        public SearchController(IExamineManager examineManager)
+        public SearchController(IExamineManager examineManager, ITagQuery tagQuery)
         {
             _examineManager = examineManager;
+            _tagQuery = tagQuery;
         }
 
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public SearchResults Search([FromQuery] SearchOptions? options)
+        public SearchResults Search([FromQuery] SearchQuery? options)
         {
             var query = options?.Query;
             var tags = options?.Tags ?? [];
@@ -42,17 +46,32 @@ namespace bed.Search
                 return new SearchResults
                 {
                     Total = results.TotalItemCount,
-                    Options = options ?? new SearchOptions(),
-                    Results = ToSearchResults(results)
+                    QueryOptions = options ?? new SearchQuery(),
+                    Results = ToSearchResults(results),
+                    Tags = results
+                                .GetFacet(Constants.Fields.Tags)?
+                                .Select(f => new SearchTag { Text = f.Label, Count = (int)f.Value }) ?? []
                 };
             }
 
             return new SearchResults
             {
                 Total = 0,
-                Options = options ?? new SearchOptions(),
-                Results = []
+                QueryOptions = options ?? new SearchQuery(),
+                Results = [],
+                Tags = []
             };
+        }
+
+        [HttpGet("Tags")]
+        [MapToApiVersion("1.0")]
+        public IEnumerable<SearchTag> Tags()
+        {
+            return _tagQuery
+                .GetAllContentTags()
+                .Where(t => t != null)
+                .Where(t => !string.IsNullOrWhiteSpace(t!.Text))
+                .Select(t => new SearchTag { Text = t!.Text!, Count = t.NodeCount });
         }
 
         private static IEnumerable<SearchResult> ToSearchResults(ISearchResults examineResults)

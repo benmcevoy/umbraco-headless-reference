@@ -1,6 +1,6 @@
 namespace bed.Search
 {
-    public class SearchOptions
+    public class SearchQuery
     {
         public string? Query { get; set; } = "";
         public int PageNumber { get; set; } = 1;
