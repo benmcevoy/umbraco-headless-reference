@@ -1,5 +1,5 @@
 import { TwoColumnPageContentModel } from "@types"
-import { Footer, Header } from "@components/navigation";
+import { Footer, Header, Tags } from "@components/navigation";
 import { PageHeader, BlockList } from "@components";
 
 export default function TwoColumnPage(pageModel: TwoColumnPageContentModel) {
@@ -10,7 +10,9 @@ export default function TwoColumnPage(pageModel: TwoColumnPageContentModel) {
             </header>
             <section className="grid grid-cols-12 container mx-auto max-w-7xl pt-10 px-6">
                 <main className="col-span-full md:col-span-8">
-                    <PageHeader {...pageModel} />
+                    <PageHeader model={pageModel.properties}
+                                afterTitle={<Tags tags={pageModel.properties.tags} />}>                        
+                    </PageHeader>
                 </main>
                 <aside className="col-span-full md:col-span-4">
                     <BlockList {...pageModel.properties.aside} />
@@ -19,7 +21,7 @@ export default function TwoColumnPage(pageModel: TwoColumnPageContentModel) {
             <footer className="w-full flex items-center justify-center py-3 flex-grow">
                 <Footer />
             </footer>
-        </div>
+        </div >
     );
 }
 

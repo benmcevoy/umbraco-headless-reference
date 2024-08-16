@@ -65,6 +65,7 @@ export type ContentElementModel = IApiElementModelBase & {
 export type ContentPropertiesModel = {
     title?: string | null;
     main?: RichTextModel;
+    tags?: Array<(string)> | null;
 };
 
 export type DatasourcesContentModel = IApiContentModelBase & {
@@ -73,9 +74,7 @@ export type DatasourcesContentModel = IApiContentModelBase & {
 
 export type DatasourcesContentResponseModel = IApiContentResponseModelBase & DatasourcesContentModel;
 
-export type DatasourcesPropertiesModel = {
-    [key: string]: unknown;
-};
+export type DatasourcesPropertiesModel = NavigationPropertiesModel;
 
 export type HomePageContentModel = IApiContentModelBase & {
     properties?: HomePagePropertiesModel;
@@ -260,7 +259,6 @@ export type SEOElementModel = IApiElementModelBase & {
 export type SEOPropertiesModel = {
     keywords?: string | null;
     summary?: string | null;
-    tags?: Array<(string)> | null;
 };
 
 export type SearchPageContentModel = IApiContentModelBase & {

@@ -10,8 +10,14 @@ namespace bed.Shared
             public string RemoteApiCacheEndpoint { get; set; } = "";
         }
 
+        public class Search
+        {
+            public ICollection<string> AggregateContentFields { get; set; } = [];
+        }
+
         public bool IsBackOfficeDisabled { get; set; } = false;
         public bool IsWebsiteDisabled { get; set; } = false;
         public ICollection<Site> Sites { get; set; } = [];
+        public Search SearchOptions { get; set; } = new Search();
     }
 }

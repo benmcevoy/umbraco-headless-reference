@@ -1,5 +1,5 @@
 import { OneColumnPageContentModel } from "@types"
-import { Footer, Header } from "@components/navigation";
+import { Footer, Header, Tags } from "@components/navigation";
 import { PageHeader, BlockList } from "@components";
 
 export default async function OneColumnPage(pageModel: OneColumnPageContentModel) {
@@ -10,7 +10,9 @@ export default async function OneColumnPage(pageModel: OneColumnPageContentModel
             </header>
             <main className="container mx-auto max-w-7xl pt-10 px-6">
                 <div>
-                    <PageHeader {...pageModel} />
+                    <PageHeader model={pageModel.properties}>
+                        <Tags tags={pageModel.properties.tags} />
+                    </PageHeader>
                     <BlockList {...pageModel.properties.components} />
                 </div>
             </main>

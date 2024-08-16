@@ -9,8 +9,10 @@ namespace bed.Search
         {
             builder.Services
                 .ConfigureOptions<SearchApiSwaggerGenOptions>()
+                .ConfigureOptions<ConfigureExternalIndexOptions>()
                 .AddTransient<IComputedField, RelativeUrl>()
-                .AddTransient<IComputedField, ContentTypeDisplay>();
+                .AddTransient<IComputedField, ContentTypeDisplay>()
+                .AddTransient<IComputedField, AggregateContent>();
         }
     }
 }

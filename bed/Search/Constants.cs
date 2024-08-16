@@ -8,6 +8,7 @@ namespace bed.Search
 
         public class Fields
         {
+            public const string AggregateContent = "aggregateContent";
             public const string RelativeUrl = "relativeUrl";
             public const string Id = "id";
             public const string Title = "title";

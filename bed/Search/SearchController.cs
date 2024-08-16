@@ -1,6 +1,8 @@
 using Asp.Versioning;
 using Examine;
+using Examine.Lucene;
 using Examine.Search;
+using Lucene.Net.Index;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Api.Common.Attributes;
 
@@ -36,11 +38,15 @@ namespace bed.Search
 
             if (!string.IsNullOrEmpty(query) && _examineManager.TryGetIndex(Constants.IndexName, out IIndex? index))
             {
+
                 var results = index
                     .Searcher
                     .CreateQuery("content")
-                    .ManagedQuery(query)
+                    .Field(Constants.Fields.AggregateContent, query)
+                    .WithFacets(f => f.FacetString(Constants.Fields.Tags, facetConfiguration: null, options.Tags))
                     .Execute(QueryOptions.SkipTake((options!.PageNumber - 1) * options.PageSize, options.PageSize));
+
+                //results.GetFacets
 
                 return new SearchResults
                 {

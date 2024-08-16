@@ -18,26 +18,40 @@ import { GetUmbracoContext } from "@/lib/umbracoContext"
 import { SearchIcon, Logo } from "@components/atomic/icons";
 import { Breadcrumb } from "@components/navigation"
 
-export const Header = async () => {
+export const Header = async ({ hideBreadCrumb = false }: { hideBreadCrumb?: boolean }) => {
     const searchInput = (
-        <Input
-            aria-label="Search"
-            classNames={{
-                inputWrapper: "bg-default-100",
-                input: "text-sm",
-            }}
-            labelPlacement="outside"
-            placeholder="Search..."
-            startContent={
-                <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-            }
-            type="search"
-        />
+        <form action='/search'>
+            <Input
+                name="query"
+                aria-label="Search"
+                classNames={{
+                    inputWrapper: "bg-default-100",
+                    input: "text-sm",
+                }}
+                labelPlacement="outside"
+                placeholder="Search..."
+                startContent={
+                    <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+                }
+                type="search"
+            />
+        </form>
     );
 
-    const context = GetUmbracoContext();
+    async function breadCrumb() {
+        if (hideBreadCrumb) {
+            return (<></>);
+        }
+
+        const context = GetUmbracoContext();
+        const breadcrumb = await GetBreadCrumb(context.path);
+
+        return (
+            <Breadcrumb menu={breadcrumb} currentPageTitle={context.umbracoData?.properties?.title} />
+        )
+    }
+
     const menu = await GetPrimaryMenu();
-    const breadcrumb = await GetBreadCrumb(context.path);
 
     return (
         <>
@@ -94,7 +108,7 @@ export const Header = async () => {
             </NextUINavbar>
 
             <div className="mx-auto max-w-7xl px-6" >
-                <Breadcrumb menu={breadcrumb} currentPageTitle={context.umbracoData?.properties?.title} />
+                {breadCrumb()}
             </div>
         </>
     );

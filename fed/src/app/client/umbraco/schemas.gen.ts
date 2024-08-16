@@ -241,6 +241,13 @@ export const $ContentPropertiesModel = {
         },
         main: {
             '$ref': '#/components/schemas/RichTextModel'
+        },
+        tags: {
+            type: 'array',
+            items: {
+                type: 'string'
+            },
+            nullable: true
         }
     }
 } as const;
@@ -274,7 +281,12 @@ export const $DatasourcesContentResponseModel = {
 } as const;
 
 export const $DatasourcesPropertiesModel = {
-    type: 'object'
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/NavigationPropertiesModel'
+        }
+    ]
 } as const;
 
 export const $HomePageContentModel = {
@@ -1041,13 +1053,6 @@ export const $SEOPropertiesModel = {
         },
         summary: {
             type: 'string',
-            nullable: true
-        },
-        tags: {
-            type: 'array',
-            items: {
-                type: 'string'
-            },
             nullable: true
         }
     }

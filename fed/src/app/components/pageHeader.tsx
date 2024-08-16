@@ -1,15 +1,16 @@
-import { IApiContentModel } from "@types";
+import { ContentPropertiesModel } from "@types";
 import { RichText, Title } from "./atomic";
-import { Tags } from "./navigation";
+import { ReactNode } from "react";
 
-export function PageHeader(props: IApiContentModel) {
+export function PageHeader({ model, afterTitle }: { model: ContentPropertiesModel, afterTitle?: ReactNode }) {
+
     return (
         <section className="pb-10">
-            <Title {...props.properties} />
+            <Title {...model} />
             <div className="mx-auto max-w-7xl px-6" >
-                <Tags tags={props.properties.tags} />
+                {afterTitle}
             </div>
-            <RichText {...props.properties.main ?? ''} />
+            <RichText {...model.main ?? ''} />
         </section>
     );
 }

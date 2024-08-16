@@ -1,18 +1,15 @@
 import { HomePageContentModel } from "@types"
-import { RichText, Title } from "@components/atomic"
+import { PageHeader } from "@components"
 import { Footer, Header } from "@components/navigation";
 
 export default function HomePage(pageModel: HomePageContentModel) {
-    const props = pageModel.properties;
-
     return (
         <div className="relative flex flex-col h-screen">
             <header className='py-6'>
-                <Header />
+                <Header hideBreadCrumb={true} />
             </header>
             <main className="container mx-auto max-w-7xl pt-10 px-6">
-                <Title {...props} />
-                <RichText {...props.main} />
+                <PageHeader model={pageModel.properties} />
             </main>
             <footer className="w-full flex items-center justify-center py-3">
                 <Footer />
@@ -20,5 +17,3 @@ export default function HomePage(pageModel: HomePageContentModel) {
         </div>
     );
 }
-
-
