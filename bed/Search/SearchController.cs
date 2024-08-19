@@ -8,7 +8,6 @@ using Umbraco.Cms.Core.PublishedCache;
 
 namespace bed.Search
 {
-    // TODO: any use? -  [OutputCache(PolicyName = Constants.DeliveryApi.OutputCache.ContentCachePolicy)]
     [MapToApi(Constants.ApiName)]
     [ApiExplorerSettings(GroupName = Constants.ApiTitle)]
     [ApiController, ApiVersion("1.0")]
@@ -26,27 +25,31 @@ namespace bed.Search
 
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public SearchResults Search([FromQuery] SearchQuery? options)
+        public SearchResults Search([FromQuery] SearchQuery? queryOptions)
         {
-            var query = options?.Query;
-            var tags = options?.Tags ?? [];
+            var query = queryOptions?.Query;
+            var tags = queryOptions?.Tags ?? [];
 
             if (!string.IsNullOrEmpty(query) && _examineManager.TryGetIndex(Constants.IndexName, out IIndex? index))
             {
                 var results = index
-                    .Searcher
-                    .CreateQuery("content")
-                    // TODO: scope search to a site? 
-                    //.ParentId(rootId).And()
-                    .NativeQuery($"{Constants.Fields.HideFromSearch}:0").And()
-                    .Field(Constants.Fields.AggregateContent, query)
-                    .WithFacets(f => f.FacetString(Constants.Fields.Tags, facetConfiguration: null, tags))
-                    .Execute(QueryOptions.SkipTake((options!.PageNumber - 1) * options.PageSize, options.PageSize));
+                                    .Searcher
+                                    .CreateQuery("content")
+                                    // TODO: scope search to a site? 
+                                    //.ParentId(rootId).And()
 
+                                    // TODO: I do not understand the examine facet
+                                    // expected the WithFacets to just work but it does not
+                                    // emit any query part
+                                    .NativeQuery($"{Constants.Fields.HideFromSearch}:0 {AndTags(tags)}")
+                                    .And()
+                                    .Field(Constants.Fields.AggregateContent, query)
+                                    .WithFacets(f => f.FacetString(Constants.Fields.Tags, null, tags))
+                                    .Execute(QueryOptions.SkipTake((queryOptions!.PageNumber - 1) * queryOptions.PageSize, queryOptions.PageSize));
                 return new SearchResults
                 {
                     Total = results.TotalItemCount,
-                    QueryOptions = options ?? new SearchQuery(),
+                    QueryOptions = queryOptions ?? new SearchQuery(),
                     Results = ToSearchResults(results),
                     Tags = results
                                 .GetFacet(Constants.Fields.Tags)?
@@ -57,21 +60,10 @@ namespace bed.Search
             return new SearchResults
             {
                 Total = 0,
-                QueryOptions = options ?? new SearchQuery(),
+                QueryOptions = queryOptions ?? new SearchQuery(),
                 Results = [],
                 Tags = []
             };
-        }
-
-        [HttpGet("Tags")]
-        [MapToApiVersion("1.0")]
-        public IEnumerable<SearchTag> Tags()
-        {
-            return _tagQuery
-                .GetAllContentTags()
-                .Where(t => t != null)
-                .Where(t => !string.IsNullOrWhiteSpace(t!.Text))
-                .Select(t => new SearchTag { Text = t!.Text!, Count = t.NodeCount });
         }
 
         private static IEnumerable<SearchResult> ToSearchResults(ISearchResults examineResults)
@@ -91,6 +83,15 @@ namespace bed.Search
                     Url = searchResult[Constants.Fields.RelativeUrl]!,
                 };
             }
+        }
+
+        private static string AndTags(string[] tags)
+        {
+            if(tags == null || tags.Length == 0) return "";
+
+            var x = tags.Aggregate((seed, next) => $"{seed} AND tags:{next}");
+
+            return $"+({Constants.Fields.Tags}:{x})";
         }
     }
 }

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { SearchPageContentModel } from "@types"
 import { GetUmbracoContext } from "@/lib/umbracoContext";
 import { PageHeader } from "@components";
@@ -9,12 +11,13 @@ export default async function SearchPage(pageModel: SearchPageContentModel) {
     OpenAPI.BASE = process.env.UMBRACO_DOMAIN;
 
     const context = GetUmbracoContext();
+    // TODO: expect pagination params here
     const options: GetV1SearchData = {
         pageNumber: 1,
         pageSize: 10,
         query: context.searchParams?.query ?? '',
         sort: null,
-        tags: []
+        tags: context.searchParams?.tags 
     };
 
     const results = await getV1Search(options);
@@ -29,10 +32,10 @@ export default async function SearchPage(pageModel: SearchPageContentModel) {
             </section>
             <section className="grid grid-cols-12 container mx-auto max-w-7xl pt-10 px-6">
                 <aside className="col-span-full md:col-span-4">
-                    <Search.Tags {...options} />
+                    <Search.Tags {...results} />
                 </aside>
                 <main className="col-span-full md:col-span-8">
-                    <Search.Options {...options} />
+                    <Search.Options {...results} />
                     <Search.Results {...results} />
                     <Search.Pagination
                         pageNumber={options.pageNumber}

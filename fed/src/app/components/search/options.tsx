@@ -1,11 +1,10 @@
-import { SearchOptions } from "@/client/search";
+import { SearchResults } from "@/client/search";
 import {Divider} from "@nextui-org/divider";
 
-export function Options(props: SearchOptions){
+export function Options(props: SearchResults){
     return (<>
     <div>
-    // TODO: sort, query, page size, tags in effect, result count, the header kinda
-
+Search for '{props.queryOptions.query}' found {props.total} results.
     </div>
     <Divider className="my-4" />
     </>);

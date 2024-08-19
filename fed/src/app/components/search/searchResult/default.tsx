@@ -1,8 +1,6 @@
 import { SearchResult } from "@/client/search";
+import { Tags } from "@/components/navigation";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
-import { Link } from "@nextui-org/link";
-
-
 
 export function DefaultSearchResult({ item, index }: { item: SearchResult, index: number }) {
 
@@ -17,7 +15,11 @@ export function DefaultSearchResult({ item, index }: { item: SearchResult, index
 
                     <CardBody>
                         <p>{item.summary}</p>
+
                     </CardBody>
+                    <CardFooter>
+                        <Tags tags={item.tags} />
+                    </CardFooter>
                 </Card>
             </a>
         </div>

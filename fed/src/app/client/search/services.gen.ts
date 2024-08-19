@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { GetV1SearchData, GetV1SearchResponse } from './types.gen';
+import type { GetV1SearchData, GetV1SearchResponse, GetV1SearchTagsResponse } from './types.gen';
 
 /**
  * @param data The data for the request.
@@ -25,4 +25,13 @@ export const getV1Search = (data: GetV1SearchData = {}): CancelablePromise<GetV1
         Sort: data.sort,
         Tags: data.tags
     }
+}); };
+
+/**
+ * @returns SearchTag Success
+ * @throws ApiError
+ */
+export const getV1SearchTags = (): CancelablePromise<GetV1SearchTagsResponse> => { return __request(OpenAPI, {
+    method: 'GET',
+    url: '/v1/search/Tags'
 }); };

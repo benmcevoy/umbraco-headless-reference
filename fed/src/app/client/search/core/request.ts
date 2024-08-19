@@ -316,8 +316,6 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions<T>)
 			const body = getRequestBody(options);
 			const headers = await getHeaders(config, options);
 
-console.log(url);
-
 			if (!onCancel.isCancelled) {
 				let response = await sendRequest(config, options, url, body, formData, headers, onCancel);
 
