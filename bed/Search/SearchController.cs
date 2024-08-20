@@ -44,7 +44,7 @@ namespace bed.Search
                                     .NativeQuery($"{Constants.Fields.HideFromSearch}:0 {AndTags(tags)}")
                                     .And()
                                     .Field(Constants.Fields.AggregateContent, query)
-                                    .WithFacets(f => f.FacetString(Constants.Fields.Tags, null, tags))
+                                    .WithFacets(f => f.FacetString(Constants.Fields.Tags))
                                     .Execute(QueryOptions.SkipTake((queryOptions!.PageNumber - 1) * queryOptions.PageSize, queryOptions.PageSize));
                 return new SearchResults
                 {
@@ -53,7 +53,7 @@ namespace bed.Search
                     Results = ToSearchResults(results),
                     Tags = results
                                 .GetFacet(Constants.Fields.Tags)?
-                                .Select(f => new SearchTag { Text = f.Label, Count = (int)f.Value }) ?? []
+                                .Select(f => new SearchTag { Text = f.Label.ToLowerInvariant(), Count = (int)f.Value }) ?? []
                 };
             }
 
@@ -79,7 +79,7 @@ namespace bed.Search
                     // for fun consider autosummarization, either my own or some LLM
                     Summary = searchResult[Constants.Fields.Summary]!,
                     ContentTypeDisplay = searchResult[Constants.Fields.ContentTypeDisplay]!,
-                    Tags = searchResult.GetValues(Constants.Fields.Tags),
+                    Tags = searchResult.GetValues(Constants.Fields.Tags).Select(t=>t.ToLowerInvariant()),
                     Url = searchResult[Constants.Fields.RelativeUrl]!,
                 };
             }
@@ -89,7 +89,7 @@ namespace bed.Search
         {
             if(tags == null || tags.Length == 0) return "";
 
-            var x = tags.Aggregate((seed, next) => $"{seed} AND tags:{next}");
+            var x = tags.Aggregate((seed, next) => $"{seed} AND tags:{next.ToLowerInvariant()}");
 
             return $"+({Constants.Fields.Tags}:{x})";
         }

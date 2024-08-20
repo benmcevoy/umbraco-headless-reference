@@ -17,16 +17,19 @@ export function Tags(props: SearchResults) {
   const tags = props.tags || [];
   const isEmpty = (tags === undefined || tags.length == 0);
   const query = props.queryOptions?.query ?? '';
+  const selectedTags = props.queryOptions.tags;
 
   if (isEmpty) return noResults();
+
+  const isSelected =(t) => selectedTags.includes(t);
 
   return (
     <>
       <form action='/search' ref={ref}>
         <input type='hidden' name='query' value={query} />
-        <CheckboxGroup label="Tags">
+        <CheckboxGroup label="Tags" defaultValue={selectedTags}>
           {tags.map((item, index) => (
-            <Checkbox name='tags' key={index} value={item.text}>{item.text} ({item.count})</Checkbox>
+            <Checkbox name='tags' isSelected={isSelected(item.text)} key={index} value={item.text}>{item.text} ({item.count})</Checkbox>
           ))}
         </CheckboxGroup>
 
