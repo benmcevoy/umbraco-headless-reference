@@ -11,6 +11,7 @@
     <PackageReference Include="Umbraco.Cms" Version="13.4.1" />
     <PackageReference Include="Umbraco.Community.DeliveryApiExtensions" Version="13.0.0" />
     <PackageReference Include="uSync" Version="13.2.4" />
+    <PackageReference Include="uSync.Commands" Version="13.1.0" />
   </ItemGroup>
 
   <ItemGroup>

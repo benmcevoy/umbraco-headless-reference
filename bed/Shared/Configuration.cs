@@ -5,7 +5,7 @@ namespace bed.Shared
         public class Site
         {
             public string Name { get; set; } = "";
-            public bool RemoteDisabled { get; set; } = false;
+            public bool RemoteEnabled { get; set; } = false;
             public string RemoteApiKey { get; set; } = "";
             public string RemoteApiCacheEndpoint { get; set; } = "";
         }

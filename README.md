@@ -13,6 +13,15 @@ Using Umbraco v13 LTS.
 
 Refer to the `appSettings.json` for an idea of available features.
 
+## uSync.Cli
+
+To install the `uSync.Cli` tool:
+
+```
+dotnet new tool-manifest
+dotnet tool install --local uSync.Cli
+```
+
 ## NextJs front end
 
 - [NextJs](https://nextjs.org/) front end, [NextUI+tailwind](https://nextui.org/) component library. 

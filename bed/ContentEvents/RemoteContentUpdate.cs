@@ -53,7 +53,7 @@ namespace bed.ContentEvents
                 var currentSite = GetSite(publishedContent)
                         ?? throw new InvalidOperationException($"RemoteContentUpdate -  cannot find site for id {c.Id}. Check the configured siteName in appSettings matches the published siteName."); ;
 
-                if (currentSite.RemoteDisabled) continue;
+                if (!currentSite.RemoteEnabled) continue;
 
                 var entity = ToRequestPayload(publishedContent)!;
 
