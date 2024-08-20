@@ -15,12 +15,10 @@ namespace bed.Search
     public class SearchController
     {
         private readonly IExamineManager _examineManager;
-        private readonly ITagQuery _tagQuery;
 
-        public SearchController(IExamineManager examineManager, ITagQuery tagQuery)
+        public SearchController(IExamineManager examineManager)
         {
             _examineManager = examineManager;
-            _tagQuery = tagQuery;
         }
 
         [HttpGet]
@@ -79,7 +77,7 @@ namespace bed.Search
                     // for fun consider autosummarization, either my own or some LLM
                     Summary = searchResult[Constants.Fields.Summary]!,
                     ContentTypeDisplay = searchResult[Constants.Fields.ContentTypeDisplay]!,
-                    Tags = searchResult.GetValues(Constants.Fields.Tags).Select(t=>t.ToLowerInvariant()),
+                    Tags = searchResult.GetValues(Constants.Fields.Tags).Select(t => t.ToLowerInvariant()),
                     Url = searchResult[Constants.Fields.RelativeUrl]!,
                 };
             }
@@ -87,9 +85,14 @@ namespace bed.Search
 
         private static string AndTags(string[] tags)
         {
-            if(tags == null || tags.Length == 0) return "";
+            if (tags == null || tags.Length == 0) return "";
 
-            var x = tags.Aggregate((seed, next) => $"{seed} AND tags:{next.ToLowerInvariant()}");
+            var x = tags
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .DefaultIfEmpty()
+                .Aggregate((seed, next) => $"{seed} AND tags:{next?.ToLowerInvariant() ?? ""}");
+
+            if (string.IsNullOrWhiteSpace(x)) return "";
 
             return $"+({Constants.Fields.Tags}:{x})";
         }

@@ -11,10 +11,10 @@ export default async function SearchPage(pageModel: SearchPageContentModel) {
     OpenAPI.BASE = process.env.UMBRACO_DOMAIN;
 
     const context = GetUmbracoContext();
-    // TODO: expect pagination params here
+
     const options: GetV1SearchData = {
-        pageNumber: 1,
-        pageSize: 10,
+        pageNumber: context.searchParams?.pageNumber ?? 1,
+        pageSize: 5,
         query: context.searchParams?.query ?? '',
         sort: null,
         tags: context.searchParams?.tags 
@@ -37,10 +37,7 @@ export default async function SearchPage(pageModel: SearchPageContentModel) {
                 <main className="col-span-full md:col-span-8">
                     <Search.Options {...results} />
                     <Search.Results {...results} />
-                    <Search.Pagination
-                        pageNumber={options.pageNumber}
-                        pageSize={options.pageSize}
-                        totalResult={results.total} />
+                    <Search.Pagination {...results} />
                 </main>
             </section>
             <footer className="w-full flex items-center justify-center py-3 flex-grow">
