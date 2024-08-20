@@ -34,20 +34,6 @@ export type ApiLinkModel = {
     linkType?: LinkTypeModel;
 };
 
-export type BasePageElementModel = IApiElementModelBase & {
-    properties?: BasePagePropertiesModel;
-};
-
-export type BasePagePropertiesModel = {
-    title?: string | null;
-    body?: RichTextModel;
-    keywords?: string | null;
-    summary?: string | null;
-    tags?: Array<(string)> | null;
-    hideFromNavigation?: boolean | null;
-    hideFromSearch?: boolean | null;
-};
-
 export type CallToActionElementModel = IApiElementModelBase & {
     properties?: CallToActionPropertiesModel;
 };
@@ -64,17 +50,9 @@ export type ContentElementModel = IApiElementModelBase & {
 
 export type ContentPropertiesModel = {
     title?: string | null;
-    main?: RichTextModel;
     tags?: Array<(string)> | null;
+    main?: RichTextModel;
 };
-
-export type DatasourcesContentModel = IApiContentModelBase & {
-    properties?: DatasourcesPropertiesModel;
-};
-
-export type DatasourcesContentResponseModel = IApiContentResponseModelBase & DatasourcesContentModel;
-
-export type DatasourcesPropertiesModel = NavigationPropertiesModel;
 
 export type HomePageContentModel = IApiContentModelBase & {
     properties?: HomePagePropertiesModel;
@@ -82,7 +60,9 @@ export type HomePageContentModel = IApiContentModelBase & {
 
 export type HomePageContentResponseModel = IApiContentResponseModelBase & HomePageContentModel;
 
-export type HomePagePropertiesModel = ContentPropertiesModel & NavigationPropertiesModel & SEOPropertiesModel & SitePropertiesModel;
+export type HomePagePropertiesModel = ContentPropertiesModel & NavigationPropertiesModel & SEOPropertiesModel & SitePropertiesModel & {
+    footerLinks?: Array<ApiLinkModel> | null;
+};
 
 export type HttpValidationProblemDetails = ProblemDetails & {
     errors?: {
@@ -90,7 +70,7 @@ export type HttpValidationProblemDetails = ProblemDetails & {
     };
 };
 
-export type IApiContentModel = HomePageContentModel | OneColumnPageContentModel | TwoColumnPageContentModel | NavigationItemContentModel | NavigationFolderContentModel | DatasourcesContentModel | SiteContentModel | SearchPageContentModel;
+export type IApiContentModel = HomePageContentModel | OneColumnPageContentModel | TwoColumnPageContentModel | SiteContentModel | SearchPageContentModel;
 
 export type IApiContentModelBase = IApiElementModelBase & {
     readonly name?: string | null;
@@ -104,7 +84,7 @@ export type IApiContentModelBase = IApiElementModelBase & {
     };
 };
 
-export type IApiContentResponseModel = HomePageContentResponseModel | OneColumnPageContentResponseModel | TwoColumnPageContentResponseModel | NavigationItemContentResponseModel | NavigationFolderContentResponseModel | DatasourcesContentResponseModel | SiteContentResponseModel | SearchPageContentResponseModel;
+export type IApiContentResponseModel = HomePageContentResponseModel | OneColumnPageContentResponseModel | TwoColumnPageContentResponseModel | SiteContentResponseModel | SearchPageContentResponseModel;
 
 export type IApiContentResponseModelBase = IApiContentModelBase & {
     readonly cultures?: {
@@ -131,11 +111,27 @@ export type IApiContentStartItemModel = {
     readonly path?: string;
 };
 
-export type IApiElementModel = CallToActionElementModel | RichTextElementModel | BasePageElementModel | ContentElementModel | NavigationElementModel | SEOElementModel;
+export type IApiElementModel = CallToActionElementModel | RichTextElementModel | ContentElementModel | NavigationElementModel | SEOElementModel | ImageBlockElementModel;
 
 export type IApiElementModelBase = {
     readonly id?: string;
     readonly contentType?: string;
+    readonly properties?: {
+        [key: string]: unknown;
+    };
+};
+
+export type IApiMediaWithCropsModel = {
+    focalPoint?: ImageFocalPointModel;
+    readonly crops?: Array<ImageCropModel> | null;
+    readonly id?: string;
+    readonly name?: string;
+    readonly mediaType?: string;
+    readonly url?: string;
+    readonly extension?: string | null;
+    readonly width?: number | null;
+    readonly height?: number | null;
+    readonly bytes?: number | null;
     readonly properties?: {
         [key: string]: unknown;
     };
@@ -158,6 +154,14 @@ export type IApiMediaWithCropsResponseModel = {
     readonly properties?: {
         [key: string]: unknown;
     };
+};
+
+export type ImageBlockElementModel = IApiElementModelBase & {
+    properties?: ImageBlockPropertiesModel;
+};
+
+export type ImageBlockPropertiesModel = {
+    image?: Array<IApiMediaWithCropsModel> | null;
 };
 
 export type ImageCropCoordinatesModel = {
@@ -183,26 +187,6 @@ export type LinkTypeModel = 'Content' | 'Media' | 'External';
 
 export type NavigationElementModel = IApiElementModelBase & {
     properties?: NavigationPropertiesModel;
-};
-
-export type NavigationFolderContentModel = IApiContentModelBase & {
-    properties?: NavigationFolderPropertiesModel;
-};
-
-export type NavigationFolderContentResponseModel = IApiContentResponseModelBase & NavigationFolderContentModel;
-
-export type NavigationFolderPropertiesModel = {
-    [key: string]: unknown;
-};
-
-export type NavigationItemContentModel = IApiContentModelBase & {
-    properties?: NavigationItemPropertiesModel;
-};
-
-export type NavigationItemContentResponseModel = IApiContentResponseModelBase & NavigationItemContentModel;
-
-export type NavigationItemPropertiesModel = {
-    link?: Array<ApiLinkModel> | null;
 };
 
 export type NavigationPropertiesModel = {

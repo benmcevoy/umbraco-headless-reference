@@ -131,57 +131,6 @@ export const $ApiLinkModel = {
     additionalProperties: false
 } as const;
 
-export const $BasePageElementModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/IApiElementModelBase'
-        }
-    ],
-    properties: {
-        properties: {
-            '$ref': '#/components/schemas/BasePagePropertiesModel'
-        }
-    },
-    additionalProperties: false
-} as const;
-
-export const $BasePagePropertiesModel = {
-    type: 'object',
-    properties: {
-        title: {
-            type: 'string',
-            nullable: true
-        },
-        body: {
-            '$ref': '#/components/schemas/RichTextModel'
-        },
-        keywords: {
-            type: 'string',
-            nullable: true
-        },
-        summary: {
-            type: 'string',
-            nullable: true
-        },
-        tags: {
-            type: 'array',
-            items: {
-                type: 'string'
-            },
-            nullable: true
-        },
-        hideFromNavigation: {
-            type: 'boolean',
-            nullable: true
-        },
-        hideFromSearch: {
-            type: 'boolean',
-            nullable: true
-        }
-    }
-} as const;
-
 export const $CallToActionElementModel = {
     type: 'object',
     allOf: [
@@ -239,54 +188,17 @@ export const $ContentPropertiesModel = {
             type: 'string',
             nullable: true
         },
-        main: {
-            '$ref': '#/components/schemas/RichTextModel'
-        },
         tags: {
             type: 'array',
             items: {
                 type: 'string'
             },
             nullable: true
+        },
+        main: {
+            '$ref': '#/components/schemas/RichTextModel'
         }
     }
-} as const;
-
-export const $DatasourcesContentModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/IApiContentModelBase'
-        }
-    ],
-    properties: {
-        properties: {
-            '$ref': '#/components/schemas/DatasourcesPropertiesModel'
-        }
-    },
-    additionalProperties: false
-} as const;
-
-export const $DatasourcesContentResponseModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/IApiContentResponseModelBase'
-        },
-        {
-            '$ref': '#/components/schemas/DatasourcesContentModel'
-        }
-    ],
-    additionalProperties: false
-} as const;
-
-export const $DatasourcesPropertiesModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/NavigationPropertiesModel'
-        }
-    ]
 } as const;
 
 export const $HomePageContentModel = {
@@ -332,7 +244,16 @@ export const $HomePagePropertiesModel = {
         {
             '$ref': '#/components/schemas/SitePropertiesModel'
         }
-    ]
+    ],
+    properties: {
+        footerLinks: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/ApiLinkModel'
+            },
+            nullable: true
+        }
+    }
 } as const;
 
 export const $HttpValidationProblemDetails = {
@@ -367,15 +288,6 @@ export const $IApiContentModel = {
         },
         {
             '$ref': '#/components/schemas/TwoColumnPageContentModel'
-        },
-        {
-            '$ref': '#/components/schemas/NavigationItemContentModel'
-        },
-        {
-            '$ref': '#/components/schemas/NavigationFolderContentModel'
-        },
-        {
-            '$ref': '#/components/schemas/DatasourcesContentModel'
         },
         {
             '$ref': '#/components/schemas/SiteContentModel'
@@ -435,9 +347,6 @@ export const $IApiContentModelBase = {
             homePage: '#/components/schemas/HomePageContentModel',
             oneColumnPage: '#/components/schemas/OneColumnPageContentModel',
             twoColumnPage: '#/components/schemas/TwoColumnPageContentModel',
-            navigationItem: '#/components/schemas/NavigationItemContentModel',
-            navigationFolder: '#/components/schemas/NavigationFolderContentModel',
-            datasources: '#/components/schemas/DatasourcesContentModel',
             site: '#/components/schemas/SiteContentModel',
             searchPage: '#/components/schemas/SearchPageContentModel'
         }
@@ -455,15 +364,6 @@ export const $IApiContentResponseModel = {
         },
         {
             '$ref': '#/components/schemas/TwoColumnPageContentResponseModel'
-        },
-        {
-            '$ref': '#/components/schemas/NavigationItemContentResponseModel'
-        },
-        {
-            '$ref': '#/components/schemas/NavigationFolderContentResponseModel'
-        },
-        {
-            '$ref': '#/components/schemas/DatasourcesContentResponseModel'
         },
         {
             '$ref': '#/components/schemas/SiteContentResponseModel'
@@ -530,9 +430,6 @@ export const $IApiContentResponseModelBase = {
             homePage: '#/components/schemas/HomePageContentResponseModel',
             oneColumnPage: '#/components/schemas/OneColumnPageContentResponseModel',
             twoColumnPage: '#/components/schemas/TwoColumnPageContentResponseModel',
-            navigationItem: '#/components/schemas/NavigationItemContentResponseModel',
-            navigationFolder: '#/components/schemas/NavigationFolderContentResponseModel',
-            datasources: '#/components/schemas/DatasourcesContentResponseModel',
             site: '#/components/schemas/SiteContentResponseModel',
             searchPage: '#/components/schemas/SearchPageContentResponseModel'
         }
@@ -579,9 +476,6 @@ export const $IApiElementModel = {
             '$ref': '#/components/schemas/RichTextElementModel'
         },
         {
-            '$ref': '#/components/schemas/BasePageElementModel'
-        },
-        {
             '$ref': '#/components/schemas/ContentElementModel'
         },
         {
@@ -589,6 +483,9 @@ export const $IApiElementModel = {
         },
         {
             '$ref': '#/components/schemas/SEOElementModel'
+        },
+        {
+            '$ref': '#/components/schemas/ImageBlockElementModel'
         }
     ],
     additionalProperties: false
@@ -618,12 +515,75 @@ export const $IApiElementModelBase = {
         mapping: {
             callToAction: '#/components/schemas/CallToActionElementModel',
             richText: '#/components/schemas/RichTextElementModel',
-            basePage: '#/components/schemas/BasePageElementModel',
             content: '#/components/schemas/ContentElementModel',
             navigation: '#/components/schemas/NavigationElementModel',
-            sEO: '#/components/schemas/SEOElementModel'
+            sEO: '#/components/schemas/SEOElementModel',
+            imageBlock: '#/components/schemas/ImageBlockElementModel'
         }
     }
+} as const;
+
+export const $IApiMediaWithCropsModel = {
+    type: 'object',
+    properties: {
+        focalPoint: {
+            '$ref': '#/components/schemas/ImageFocalPointModel'
+        },
+        crops: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/ImageCropModel'
+            },
+            nullable: true,
+            readOnly: true
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            readOnly: true
+        },
+        name: {
+            type: 'string',
+            readOnly: true
+        },
+        mediaType: {
+            type: 'string',
+            readOnly: true
+        },
+        url: {
+            type: 'string',
+            readOnly: true
+        },
+        extension: {
+            type: 'string',
+            nullable: true,
+            readOnly: true
+        },
+        width: {
+            type: 'integer',
+            format: 'int32',
+            nullable: true,
+            readOnly: true
+        },
+        height: {
+            type: 'integer',
+            format: 'int32',
+            nullable: true,
+            readOnly: true
+        },
+        bytes: {
+            type: 'integer',
+            format: 'int32',
+            nullable: true,
+            readOnly: true
+        },
+        properties: {
+            type: 'object',
+            additionalProperties: {},
+            readOnly: true
+        }
+    },
+    additionalProperties: false
 } as const;
 
 export const $IApiMediaWithCropsResponseModel = {
@@ -701,6 +661,34 @@ export const $IApiMediaWithCropsResponseModel = {
         }
     },
     additionalProperties: false
+} as const;
+
+export const $ImageBlockElementModel = {
+    type: 'object',
+    allOf: [
+        {
+            '$ref': '#/components/schemas/IApiElementModelBase'
+        }
+    ],
+    properties: {
+        properties: {
+            '$ref': '#/components/schemas/ImageBlockPropertiesModel'
+        }
+    },
+    additionalProperties: false
+} as const;
+
+export const $ImageBlockPropertiesModel = {
+    type: 'object',
+    properties: {
+        image: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/IApiMediaWithCropsModel'
+            },
+            nullable: true
+        }
+    }
 } as const;
 
 export const $ImageCropCoordinatesModel = {
@@ -781,79 +769,6 @@ export const $NavigationElementModel = {
         }
     },
     additionalProperties: false
-} as const;
-
-export const $NavigationFolderContentModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/IApiContentModelBase'
-        }
-    ],
-    properties: {
-        properties: {
-            '$ref': '#/components/schemas/NavigationFolderPropertiesModel'
-        }
-    },
-    additionalProperties: false
-} as const;
-
-export const $NavigationFolderContentResponseModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/IApiContentResponseModelBase'
-        },
-        {
-            '$ref': '#/components/schemas/NavigationFolderContentModel'
-        }
-    ],
-    additionalProperties: false
-} as const;
-
-export const $NavigationFolderPropertiesModel = {
-    type: 'object'
-} as const;
-
-export const $NavigationItemContentModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/IApiContentModelBase'
-        }
-    ],
-    properties: {
-        properties: {
-            '$ref': '#/components/schemas/NavigationItemPropertiesModel'
-        }
-    },
-    additionalProperties: false
-} as const;
-
-export const $NavigationItemContentResponseModel = {
-    type: 'object',
-    allOf: [
-        {
-            '$ref': '#/components/schemas/IApiContentResponseModelBase'
-        },
-        {
-            '$ref': '#/components/schemas/NavigationItemContentModel'
-        }
-    ],
-    additionalProperties: false
-} as const;
-
-export const $NavigationItemPropertiesModel = {
-    type: 'object',
-    properties: {
-        link: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/ApiLinkModel'
-            },
-            nullable: true
-        }
-    }
 } as const;
 
 export const $NavigationPropertiesModel = {

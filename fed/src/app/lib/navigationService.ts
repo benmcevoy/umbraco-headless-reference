@@ -1,4 +1,4 @@
-import { IApiContentResponseModel, ApiLinkModel, OpenAPI, getContent20 } from "@types"
+import { IApiContentResponseModel, ApiLinkModel, OpenAPI, getContent20, getContentItemByPath20, HomePageContentModel } from "@types"
 
 export interface NavigationItem {
     href: string;
@@ -16,10 +16,10 @@ function ToLinkFromPage(link: IApiContentResponseModel) : NavigationItem {
 function ToLinkFromLink(link: ApiLinkModel): NavigationItem  {
     // TODO: media and querystring etc
     switch (link.linkType) {
-        case "Content":
-        case "Media":
+        case 'Content':
+        case 'Media':
             return { href: link.route.path, label: link.title};
-        case "External":
+        case 'External':
             return { href: link.url, label: link.title, isExternal: true };
     }
 }
@@ -27,7 +27,7 @@ function ToLinkFromLink(link: ApiLinkModel): NavigationItem  {
 export async function GetPrimaryMenu(pathOrId: string = "/") : Promise<NavigationItem[]>  {
     OpenAPI.BASE = process.env.UMBRACO_DOMAIN;
 
-    let result = await getContent20({
+    const result = await getContent20({
         fetch: `children:${pathOrId}`,
         fields: 'properties[title]',
         filter: ['hideFromNavigation:0'],
@@ -42,13 +42,15 @@ export async function GetPrimaryMenu(pathOrId: string = "/") : Promise<Navigatio
 export async function GetFooter() : Promise<NavigationItem[]> {
     OpenAPI.BASE = process.env.UMBRACO_DOMAIN;
 
-    let result = await getContent20({
-        fetch: `children:/datasources/footer/`,
-        fields: "properties[link]",
-        apiKey: process.env.UMBRACO_API_KEY
-    });
+    const result = await getContentItemByPath20(
+        {
+            path: '/',
+            apiKey: process.env.UMBRACO_API_KEY
+        }
+    ) as HomePageContentModel;
 
-    const projection = result.items.map((x, i) => { return ToLinkFromLink(x.properties.link[0]) });
+    const links = result.properties.footerLinks;
+    const projection = links.map((x, i) => { return ToLinkFromLink(x) });
 
     return projection;
 }
@@ -56,11 +58,11 @@ export async function GetFooter() : Promise<NavigationItem[]> {
 export async function GetBreadCrumb(path) {
     OpenAPI.BASE = process.env.UMBRACO_DOMAIN;
 
-    let result = await getContent20({
+    const result = await getContent20({
         fetch: `ancestors:${path}`,
-        fields: "properties[title]",
+        fields: 'properties[title]',
         filter: ['hideFromNavigation:0'],
-        sort: ["level:asc"],
+        sort: ['level:asc'],
         apiKey: process.env.UMBRACO_API_KEY
     });
 
