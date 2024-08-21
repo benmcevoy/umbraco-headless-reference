@@ -4,7 +4,6 @@ using Examine.Lucene;
 using Examine.Search;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Api.Common.Attributes;
-using Umbraco.Cms.Core.PublishedCache;
 
 namespace bed.Search
 {

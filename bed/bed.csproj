@@ -7,11 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Examine" Version="4.0.0-beta.1" />
-    <PackageReference Include="SmartComponents.AspNetCore" Version="0.1.0-preview10148" />
     <PackageReference Include="Umbraco.Cms" Version="13.4.1" />
     <PackageReference Include="Umbraco.Community.DeliveryApiExtensions" Version="13.0.0" />
     <PackageReference Include="uSync" Version="13.2.4" />
     <PackageReference Include="uSync.Commands" Version="13.1.0" />
+    <PackageReference Include="uSync.Commands.server" Version="13.1.0" />
   </ItemGroup>
 
   <ItemGroup>
