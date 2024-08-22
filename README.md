@@ -22,10 +22,20 @@ dotnet new tool-manifest
 dotnet tool install --local uSync.Cli
 ```
 
+### NOTE: 
+
+`uSync.Cli` DOES NOT WORK if the website is disabled via `appSettings.json` or in `Program.cs`.
+
+refer: https://github.com/Jumoo/uSync.CommandLine/issues/9
+
+Just turn the website back on for now.
+
 ## NextJs front end
 
 - [NextJs](https://nextjs.org/) front end, [NextUI+tailwind](https://nextui.org/) component library. 
 - Automatically [generated OpenAPI client](https://github.com/hey-api/openapi-ts) and types.
 
 Refer to the `.env` file for an idea of features.
+
+
 

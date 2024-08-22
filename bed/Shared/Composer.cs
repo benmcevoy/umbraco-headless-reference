@@ -1,6 +1,7 @@
 
 using bed.FaultHandling;
 using Umbraco.Cms.Core.Composing;
+using uSync.BackOffice.Configuration;
 
 namespace bed.Shared
 {
@@ -14,6 +15,17 @@ namespace bed.Shared
 
             builder.Services.AddSingleton((serviceProvider) => config);
             builder.Services.AddSingleton<RetryPolicyFactory>();
+
+
+            // load the config for ContentOnly set
+            builder.Services.Configure<uSyncHandlerSetSettings>(
+                "SettingsOnly",
+                builder.Config.GetSection(uSync.BackOffice.uSync.Configuration.uSyncSetsConfigPrefix + "SettingsOnly"));
+
+            // load the config for ContentOnly set
+            builder.Services.Configure<uSyncHandlerSetSettings>(
+                "ContentOnly",
+                builder.Config.GetSection(uSync.BackOffice.uSync.Configuration.uSyncSetsConfigPrefix + "ContentOnly"));
         }
     }
 }
